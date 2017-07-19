@@ -1,5 +1,5 @@
 /**
- * Created by cuijiya on 17-7-17.
+ * Created by cuijiya on 17-7-18.
  */
 class Person {
     constructor(name, age, id) {
@@ -13,16 +13,32 @@ class Person {
     }
 }
 
-var Tom = new Person('Tom', 10, 201701).introduce()
-console.log(Tom)//测试
-
 class klass {
     constructor(number) {
         this.number = number
     }
 
-    assignLeader(studentName) {
-        this.leader = studentName
+    appendMember(student) {
+        if (this.appdendMemberArr === undefined) {
+            this.appendMemberArr = [student.id]
+        } else {
+            this.appendMemberArr.push(student.id)
+        }
+
+    }
+
+    assignLeader(student) {
+        if (this.appendMemberArr !== undefined) {
+            for (var i of this.appendMemberArr) {
+                if (student.id === i) {
+                    this.leader = student.id
+                } else {
+                    console.log('It is not one of us.')
+                }
+            }
+        } else {
+            console.log('It is not one of us.')
+        }
     }
 }
 
@@ -34,7 +50,7 @@ class Student extends Person {
 
     introduce() {
         var str = super.introduce() + 'I am a Student. '
-        if (this.klass.leader === this.name) {
+        if (this.klass.leader === this.id) {
             str += 'I am Leader of Class ' + this.klass.number + '.'
         }
         else {
@@ -43,13 +59,6 @@ class Student extends Person {
         console.log(str)
     }
 }
-
-var Class = new klass(2)
-Class.assignLeader('Tom')
-var studentA = new Student('Tom', 10, 201701, Class)
-studentA.introduce()
-var studentB = new Student('Mary', 11, 201702, Class)
-studentB.introduce()
 
 class Teacher
     extends Person {
@@ -79,5 +88,12 @@ class Teacher
     }
 }
 
-new Teacher('Ma', 20, 2).introduceWith(studentA)
-new Teacher('Ma', 20, 1).introduceWith(studentA)
+var Class = new klass(2)
+var studentA = new Student('Tom', 11, 201701, Class)
+var studentB = new Student('Mary', 12, 201702, Class)
+
+Class.appendMember(studentA)
+Class.assignLeader(studentA)
+Class.assignLeader(studentB)
+studentA.introduce()
+studentB.introduce()
